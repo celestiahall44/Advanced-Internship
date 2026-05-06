@@ -1837,9 +1837,23 @@ button:disabled {
 .library__grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 24px;
   margin-top: 24px;
 }
+
+.library__grid .book-card--small {
+  width: 220px;
+  min-width: 220px;
+}
+
+.library__grid .book-card-small__title {
+  font-size: 16px;
+}
+
+.library__grid .book-card-small__author {
+  font-size: 14px;
+}
+
 
 .library__remove-btn {
   position: absolute;
