@@ -44,6 +44,10 @@ function ForYou() {
     if (e.key === "Enter") handleSearch();
   };
 
+  const handleBookClick = (bookId) => {
+    navigate(`/book/${bookId}`);
+  };
+
   return (
     <div className="for-you-page">
       <div className="app-layout">
@@ -79,7 +83,11 @@ function ForYou() {
                   <div className="book-card book-card--selected book-card--skeleton" />
                 ) : (
                   selectedBooks.map((book) => (
-                    <div key={book.id} className="book-card book-card--selected">
+                    <div
+                      key={book.id}
+                      className="book-card book-card--selected"
+                      onClick={() => handleBookClick(book.id)}
+                    >
                       <div className="book-card__left">
                         <p className="book-card__subtitle">{book.subTitle}</p>
                       </div>
@@ -118,7 +126,11 @@ function ForYou() {
                       <div key={i} className="book-card book-card--small book-card--skeleton" />
                     ))
                   : recommendedBooks.slice(0, 5).map((book) => (
-                      <div key={book.id} className="book-card book-card--small">
+                      <div
+                        key={book.id}
+                        className="book-card book-card--small"
+                        onClick={() => handleBookClick(book.id)}
+                      >
                         <div className="book-card__cover-wrap">
                           <img
                             className="book-card-small__cover"
@@ -162,7 +174,11 @@ function ForYou() {
                       <div key={i} className="book-card book-card--small book-card--skeleton" />
                     ))
                   : suggestedBooks.slice(0, 5).map((book) => (
-                      <div key={book.id} className="book-card book-card--small">
+                      <div
+                        key={book.id}
+                        className="book-card book-card--small"
+                        onClick={() => handleBookClick(book.id)}
+                      >
                         <div className="book-card__cover-wrap">
                           <img
                             className="book-card-small__cover"

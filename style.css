@@ -756,7 +756,7 @@ button:disabled {
 
 .app-main {
   flex: 1;
-  padding: 32px 150px;
+  padding: 32px 48px;
   overflow-y: auto;
 }
 
@@ -1112,6 +1112,239 @@ button:disabled {
   font-size: 16px;
 }
 
+/* BOOK DETAILS */
+.book-page {
+  display: block;
+}
+
+.book-page__state {
+  color: #394547;
+  font-size: 18px;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px 96px 0;
+}
+
+.book-details__back {
+  align-self: flex-start;
+  color: #032b41;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #d7e1e5;
+  background: #ffffff;
+}
+
+.book-details__hero {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 28px;
+  padding: 24px;
+}
+
+.book-details__cover {
+  width: 300px;
+  min-width: 300px;
+  border-radius: 12px;
+  align-self: center;
+}
+
+.book-details__content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.book-details__id {
+  font-size: 13px;
+  color: #6b757b;
+}
+
+.book-details__title {
+  font-size: 34px;
+  line-height: 1.2;
+  color: #032b41;
+}
+
+.book-details__author {
+  font-size: 17px;
+  color: #394547;
+}
+
+.book-details__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.book-details__tag {
+  background: #e8f4f0;
+  color: #032b41;
+  border-radius: 999px;
+  padding: 16px 16px;
+  font-size: 16px;
+  font-weight: 700;
+  min-width: 140px;
+  text-align: center;
+  cursor: not-allowed;
+}
+
+.book-details__subtitle {
+  font-size: 16px;
+  color: #5a6568;
+  max-width: 62ch;
+}
+
+.book-details__divider {
+  border: none;
+  border-top: 1px solid #d7e1e5;
+  margin: 8px 0;
+}
+
+.book-details__meta {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.book-details__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #394547;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.book-details__meta-item svg {
+  color: #f3c244;
+}
+
+.book-details__type-row {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+
+.book-details__type-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #394547;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.book-details__type-item svg {
+  color: #032b41;
+}
+
+.book-details__pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: #032b41;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  letter-spacing: 0.04em;
+}
+
+.book-details__actions {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.book-details__save {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #1a8cff;
+  border: none;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.book-details__save--saved {
+  color: #2bd97c;
+}
+
+.book-details__listen,
+.book-details__read {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #032b41;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 700;
+  min-width: 140px;
+  cursor: pointer;
+}
+
+.book-details__listen {
+}
+
+.book-details__read {
+}
+
+.book-details__body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.book-details__section {
+  padding: 18px 0;
+}
+
+.book-details__section-title {
+  color: #032b41;
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
+.book-details__text {
+  color: #394547;
+  line-height: 1.7;
+  font-size: 18px;
+  margin-top: 12px;
+}
+
+.book-details__ideas {
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.book-details__ideas li {
+  color: #394547;
+  line-height: 1.6;
+}
+
 /* RESPONSIVE */
 @media (max-width: 1024px) {
   .sidebar {
@@ -1159,6 +1392,16 @@ button:disabled {
 
   .book-card__premium-pill {
     display: none;
+  }
+
+  .book-details__hero {
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    padding: 18px;
+  }
+
+  .book-details__title {
+    font-size: 28px;
   }
 }
 
@@ -1321,6 +1564,42 @@ button:disabled {
 
   .book-card__left {
     display: none;
+  }
+
+  .book-details__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .book-details__cover {
+    max-width: 220px;
+  }
+
+  .book-details__title {
+    font-size: 24px;
+  }
+
+  .book-details__section-title {
+    font-size: 18px;
+  }
+
+  .book-details {
+    gap: 14px;
+  }
+
+  .book-details__hero,
+  .book-details__section {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .book-details__title {
+    font-size: 20px;
+  }
+
+  .book-details__author,
+  .book-details__subtitle,
+  .book-details__text {
+    font-size: 14px;
   }
 }
 
