@@ -7,6 +7,7 @@ import Search from "./Search";
 import BookDetails from "./BookDetails";
 import ChoosePlan from "./ChoosePlan";
 import Library from "./Library";
+import Player from "./Player";
 import ProtectedRoute from "./ProtectedRoute";
 import "../style.css";
 
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/book/:id" element={<ProtectedRoute><BookDetails /></ProtectedRoute>} />
         <Route path="/choose-plan" element={<ProtectedRoute><ChoosePlan /></ProtectedRoute>} />
         <Route path="/library" element={<ProtectedRoute><Library /></ProtectedRoute>} />
+        <Route path="/player/:id" element={<ProtectedRoute><Player /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

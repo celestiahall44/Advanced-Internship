@@ -170,19 +170,14 @@ function BookDetails() {
                     <hr className="book-details__divider" />
                     <div className="book-details__actions">
                       {book.audioLink && (
-                        <a
+                        <button
                           className="book-details__listen"
-                          href={book.audioLink}
-                          target="_blank"
-                          rel="noreferrer"
-                          onClick={(e) => {
-                            if (!auth.currentUser) { e.preventDefault(); navigate("/login"); return; }
-                            if (book.subscriptionRequired) { e.preventDefault(); navigate("/choose-plan"); }
-                          }}
+                          type="button"
+                          onClick={() => handleProtectedAction(() => navigate(`/player/${id}`))}
                         >
                           <FaPlay />
                           Listen
-                        </a>
+                        </button>
                       )}
                       <button className="book-details__read" type="button" onClick={() => handleProtectedAction(() => {
                         try {
