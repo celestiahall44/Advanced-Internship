@@ -7,9 +7,17 @@ import Login from "./Login";
 import landingImage from "../assets/landing.png";
 import logoImage from "../assets/logo.png";
 
+import { useEffect } from "react";
+
 function App() {
   const location = useLocation();
   const isLoginModalOpen = location.pathname === "/login";
+
+  useEffect(() => {
+    if (isLoginModalOpen) {
+      window.scrollTo({ top: 0 });
+    }
+  }, [isLoginModalOpen]);
 
   return (
     <>

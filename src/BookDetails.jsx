@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { BsClock, BsBook, BsSearch, BsStarFill, BsMicFill, BsFileText, BsLightbulb, BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
+import { auth } from "./firebase";
 import Sidebar from "./Sidebar";
 
 const BOOK_BY_ID_API = "https://us-central1-summaristt.cloudfunctions.net/getBook?id=";
@@ -13,6 +14,18 @@ function BookDetails() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saved, setSaved] = useState(false);
+
+  const handleProtectedAction = (action) => {
+    if (!auth.currentUser) {
+      navigate("/login");
+      return;
+    }
+    if (book?.subscriptionRequired) {
+      navigate("/choose-plan");
+      return;
+    }
+    action();
+  };
 
   const handleSearch = () => {
     const trimmed = query.trim();
@@ -155,12 +168,16 @@ function BookDetails() {
                           href={book.audioLink}
                           target="_blank"
                           rel="noreferrer"
+                          onClick={(e) => {
+                            if (!auth.currentUser) { e.preventDefault(); navigate("/login"); return; }
+                            if (book.subscriptionRequired) { e.preventDefault(); navigate("/choose-plan"); }
+                          }}
                         >
                           <FaPlay />
                           Listen
                         </a>
                       )}
-                      <button className="book-details__read" type="button">
+                      <button className="book-details__read" type="button" onClick={() => handleProtectedAction(() => {})}>
                         <BsBook />
                         Read
                       </button>
