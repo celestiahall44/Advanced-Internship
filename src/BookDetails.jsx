@@ -13,7 +13,14 @@ function BookDetails() {
   const [query, setQuery] = useState("");
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(() => {
+    try {
+      const lib = JSON.parse(localStorage.getItem("myLibrary") || "[]");
+      return lib.some((b) => b.id === id);
+    } catch {
+      return false;
+    }
+  });
 
   const handleProtectedAction = (action) => {
     if (!auth.currentUser) {
@@ -177,7 +184,15 @@ function BookDetails() {
                           Listen
                         </a>
                       )}
-                      <button className="book-details__read" type="button" onClick={() => handleProtectedAction(() => {})}>
+                      <button className="book-details__read" type="button" onClick={() => handleProtectedAction(() => {
+                        try {
+                          const lib = JSON.parse(localStorage.getItem("finishedLibrary") || "[]");
+                          if (!lib.some((b) => b.id === book.id)) {
+                            lib.push({ id: book.id, title: book.title, author: book.author, imageLink: book.imageLink, subTitle: book.subTitle, averageRating: book.averageRating, subscriptionRequired: book.subscriptionRequired });
+                            localStorage.setItem("finishedLibrary", JSON.stringify(lib));
+                          }
+                        } catch {}
+                      })}>
                         <BsBook />
                         Read
                       </button>
@@ -185,7 +200,20 @@ function BookDetails() {
                     <button
                       className={`book-details__save${saved ? " book-details__save--saved" : ""}`}
                       type="button"
-                      onClick={() => setSaved((s) => !s)}
+                      onClick={() => {
+                        if (!auth.currentUser) { navigate("/login"); return; }
+                        setSaved((s) => {
+                          const next = !s;
+                          try {
+                            const lib = JSON.parse(localStorage.getItem("myLibrary") || "[]");
+                            const updated = next
+                              ? [...lib.filter((b) => b.id !== book.id), { id: book.id, title: book.title, author: book.author, imageLink: book.imageLink, subTitle: book.subTitle, averageRating: book.averageRating, subscriptionRequired: book.subscriptionRequired }]
+                              : lib.filter((b) => b.id !== book.id);
+                            localStorage.setItem("myLibrary", JSON.stringify(updated));
+                          } catch {}
+                          return next;
+                        });
+                      }}
                     >
                       {saved ? <BsBookmarkFill /> : <BsBookmark />}
                       {saved ? "Saved in My Library" : "Add To My Library"}
