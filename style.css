@@ -756,7 +756,7 @@ button:disabled {
 
 .app-main {
   flex: 1;
-  padding: 32px 48px;
+  padding: 32px 150px;
   overflow-y: auto;
 }
 
@@ -855,7 +855,7 @@ button:disabled {
 }
 
 .fy-section__title {
-  font-size: 22px;
+  font-size: 36px;
   font-weight: 700;
   color: #032b41;
   margin-bottom: 4px;
@@ -891,16 +891,18 @@ button:disabled {
 .book-card--selected {
   display: flex;
   gap: 20px;
-  background: #e4dccd;
-  border: 1px solid #9c9b99;
+  background: #f5f0e8;
+  border: 1px solid transparent;
   border-radius: 12px;
   padding: 20px;
   max-width: 680px;
   cursor: pointer;
-  transition: box-shadow 0.2s;
+  transition: background 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
 .book-card--selected:hover {
+  background: #e4dccd;
+  border-color: #9c9b99;
   box-shadow: 0 4px 16px rgba(0,0,0,0.10);
 }
 
@@ -925,6 +927,7 @@ button:disabled {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  justify-content: center;
 }
 
 .book-card__badge {
@@ -953,9 +956,13 @@ button:disabled {
 }
 
 .book-card__subtitle {
-  font-size: 18px;
+  font-size: 22px;
   color: #394547;
   margin: 0;
+}
+
+.book-card--selected .book-card__subtitle {
+  font-size: 16px;
 }
 
 .book-card__meta {
@@ -977,7 +984,8 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 14px;
+  margin-top: 8px;
+  align-self: flex-start;
   padding: 8px;
   background-color: #032b41;
   color: #fff;
@@ -1358,7 +1366,7 @@ button:disabled {
   }
 
   .app-main {
-    padding: 24px 16px;
+    padding: 24px 32px;
   }
 
   .book-card__cover {
@@ -1371,7 +1379,7 @@ button:disabled {
   }
 
   .fy-section__title {
-    font-size: 18px;
+    font-size: 28px;
   }
 
   .fy-section__content--row {
@@ -1422,7 +1430,7 @@ button:disabled {
   }
 
   .app-main {
-    padding: 16px 12px;
+    padding: 16px 16px;
   }
 
   .fy-section {
@@ -1809,79 +1817,6 @@ button:disabled {
   margin: 0 auto;
 }
 
-  .fy-section__title {
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
-
-  .fy-section__subtitle {
-    font-size: 13px;
-    margin-bottom: 12px;
-  }
-
-  .book-card__left {
-    display: none;
-  }
-
-  .book-card__subtitle {
-    font-size: 16px;
-  }
-
-  .book-card__cover {
-    width: 100%;
-    max-width: 150px;
-    height: auto;
-    aspect-ratio: 2/3;
-    margin: 0 auto;
-  }
-
-  .book-card__info {
-    gap: 4px;
-  }
-
-  .book-card__title {
-    font-size: 14px;
-  }
-
-  .book-card__author {
-    font-size: 12px;
-  }
-
-  .book-card__play-btn {
-    width: 36px;
-    height: 36px;
-    margin-top: 10px;
-  }
-
-  .book-card--small {
-    flex: 0 1 calc(33.333% - 11px);
-    width: calc(33.333% - 11px);
-    min-width: auto;
-    padding: 10px;
-  }
-
-  .book-card-small__title {
-    font-size: 13px;
-  }
-
-  .book-card-small__author {
-    font-size: 11px;
-  }
-
-  .book-card-small__subtitle {
-    font-size: 11px;
-  }
-
-  .book-card__meta-item {
-    font-size: 11px;
-    gap: 3px;
-  }
-
-  .fy-section__content--row {
-    gap: 8px;
-  }
-
-
 @media (max-width: 480px) {
   .for-you-nav__inner {
     padding: 8px 8px;
@@ -1905,7 +1840,7 @@ button:disabled {
   }
 
   .fy-section__title {
-    font-size: 14px;
+    font-size: 22px;
   }
 
   .book-card__cover {

@@ -89,7 +89,9 @@ function ForYou() {
                       onClick={() => handleBookClick(book.id)}
                     >
                       <div className="book-card__left">
-                        <p className="book-card__subtitle">{book.subTitle}</p>
+                        {book.subTitle && (
+                          <p className="book-card__subtitle">{book.subTitle}</p>
+                        )}
                       </div>
                       <img
                         className="book-card__cover"
