@@ -4,6 +4,7 @@ import { BsSearch } from "react-icons/bs";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { MdReplay10, MdForward10 } from "react-icons/md";
 import Sidebar from "./Sidebar";
+import { useFontSize } from "./FontSizeContext";
 
 const BOOK_BY_ID_API = "https://us-central1-summaristt.cloudfunctions.net/getBook?id=";
 
@@ -17,6 +18,7 @@ function formatTime(secs) {
 function Player() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { fontSize } = useFontSize();
   const [query, setQuery] = useState("");
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,16 +30,31 @@ function Player() {
   const [volume, setVolume] = useState(1);
 
   useEffect(() => {
+    setLoading(true);
+    setBook(null);
+    setPlaying(false);
+    setCurrentTime(0);
+    setDuration(0);
     let isMounted = true;
     fetch(`${BOOK_BY_ID_API}${id}`)
       .then((r) => r.json())
       .then((data) => {
         if (!isMounted) return;
-        setBook(Array.isArray(data) ? data[0] : data);
+        const fetched = Array.isArray(data) ? data[0] : data;
+        if (fetched?.subscriptionRequired) {
+          navigate("/choose-plan");
+          return;
+        }
+        setBook(fetched);
       })
       .catch(() => { if (isMounted) setBook(null); })
       .finally(() => { if (isMounted) setLoading(false); });
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
   }, [id]);
 
   const handleSearch = () => {
@@ -77,12 +94,29 @@ function Player() {
     audio.currentTime = Math.min(Math.max(audio.currentTime + secs, 0), duration);
   };
 
-  const keyIdeas = useMemo(() => {
-    if (!book?.keyIdeas) return [];
-    if (typeof book.keyIdeas === "number") return [];
-    if (Array.isArray(book.keyIdeas)) return book.keyIdeas.map((k) => String(k).trim()).filter(Boolean);
-    return String(book.keyIdeas).split("\n").map((k) => k.trim()).filter(Boolean);
+  const summaryText = useMemo(() => {
+    if (!book) return "";
+    return String(book.summary || book.bookDescription || "").trim();
   }, [book]);
+
+  const summaryParagraphs = useMemo(() => {
+    if (!summaryText) return [];
+
+    const normalized = summaryText.replace(/\r\n/g, "\n").trim();
+    let paragraphs = normalized
+      .split(/\n\s*\n+/)
+      .map((p) => p.trim())
+      .filter(Boolean);
+
+    if (paragraphs.length === 1 && normalized.includes("\n")) {
+      paragraphs = normalized
+        .split(/\n+/)
+        .map((p) => p.trim())
+        .filter(Boolean);
+    }
+
+    return paragraphs;
+  }, [summaryText]);
 
   return (
     <div className="for-you-page">
@@ -115,13 +149,23 @@ function Player() {
             ) : (
               <div className="player__page-content">
                 <h1 className="player__page-title">{book.title}</h1>
+                <hr className="player__page-divider" />
+                {summaryParagraphs.length > 0 ? (
+                  <div className="player__page-summary-wrap">
+                    {summaryParagraphs.map((paragraph, index) => (
+                      <p key={`${book.id}-summary-${index}`} className="player__page-summary" style={{ fontSize }}>{paragraph}</p>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="player__page-summary">No summary text available from the API for this book.</p>
+                )}
               </div>
             )}
           </main>
 
           {!loading && book && (
             <footer className="player__footer">
-              {book.audioLink && (
+              {book.audioLink ? (
                 <audio
                   ref={audioRef}
                   src={book.audioLink}
@@ -129,7 +173,7 @@ function Player() {
                   onLoadedMetadata={() => setDuration(audioRef.current?.duration || 0)}
                   onEnded={() => setPlaying(false)}
                 />
-              )}
+              ) : null}
 
               {/* Book info */}
               <div className="player__book-info">
@@ -142,6 +186,9 @@ function Player() {
 
               {/* Controls */}
               <div className="player__controls">
+                {!book.audioLink && (
+                  <p className="player__no-audio">No audio available for this book.</p>
+                )}
                 <div className="player__progress-row">
                   <span className="player__time">{formatTime(currentTime)}</span>
                   <input
@@ -152,17 +199,18 @@ function Player() {
                     step={0.1}
                     value={currentTime}
                     onChange={handleSeek}
+                    disabled={!book.audioLink}
                   />
                   <span className="player__time">{formatTime(duration)}</span>
                 </div>
                 <div className="player__btn-row">
-                  <button className="player__skip-btn" type="button" onClick={() => skip(-10)} aria-label="Rewind 10 seconds">
+                  <button className="player__skip-btn" type="button" onClick={() => skip(-10)} aria-label="Rewind 10 seconds" disabled={!book.audioLink}>
                     <MdReplay10 />
                   </button>
-                  <button className="player__play-btn" type="button" onClick={togglePlay} aria-label={playing ? "Pause" : "Play"}>
+                  <button className="player__play-btn" type="button" onClick={togglePlay} aria-label={playing ? "Pause" : "Play"} disabled={!book.audioLink}>
                     {playing ? <FaPause /> : <FaPlay />}
                   </button>
-                  <button className="player__skip-btn" type="button" onClick={() => skip(10)} aria-label="Skip 10 seconds">
+                  <button className="player__skip-btn" type="button" onClick={() => skip(10)} aria-label="Skip 10 seconds" disabled={!book.audioLink}>
                     <MdForward10 />
                   </button>
                 </div>
@@ -179,6 +227,7 @@ function Player() {
                   step={0.01}
                   value={volume}
                   onChange={handleVolume}
+                  disabled={!book.audioLink}
                 />
               </div>
             </footer>

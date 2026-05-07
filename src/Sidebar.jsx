@@ -1,9 +1,10 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { BsSearch, BsBookmark, BsPencil } from "react-icons/bs";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import { HiOutlineQuestionMarkCircle } from "react-icons/hi2";
 import { RiHome6Line } from "react-icons/ri";
 import logoImage from "../assets/logo.png";
+import { useFontSize, FONT_SIZE_OPTIONS } from "./FontSizeContext";
 
 const links = [
   { to: "/for-you", label: "For You", icon: <RiHome6Line /> },
@@ -19,6 +20,9 @@ const bottomLinks = [
 
 function Sidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { fontSize, setFontSize } = useFontSize();
+  const isPlayerPage = location.pathname.startsWith("/player/");
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -56,6 +60,25 @@ function Sidebar() {
           )
         )}
       </nav>
+
+      {isPlayerPage && (
+      <div className="sidebar__font-size">
+        <div className="sidebar__font-size-options">
+          {FONT_SIZE_OPTIONS.map((opt) => (
+            <button
+              key={opt.name}
+              type="button"
+              className={`sidebar__font-size-btn${fontSize === opt.size ? " sidebar__font-size-btn--active" : ""}`}
+              onClick={() => setFontSize(opt.size)}
+              title={opt.name}
+              style={{ fontSize: opt.size }}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      )}
 
       <div className="sidebar__bottom">
         {bottomLinks.map(({ label, icon, disabled }) =>
