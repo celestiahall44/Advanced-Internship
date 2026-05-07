@@ -13,6 +13,7 @@ function BookDetails() {
   const [query, setQuery] = useState("");
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [audioDuration, setAudioDuration] = useState(null);
   const [saved, setSaved] = useState(() => {
     try {
       const lib = JSON.parse(localStorage.getItem("myLibrary") || "[]");
@@ -28,7 +29,7 @@ function BookDetails() {
       return;
     }
     if (book?.subscriptionRequired) {
-      navigate("/choose-plan");
+      navigate("/choose-plan", { state: { fromBookId: id } });
       return;
     }
     action();
@@ -97,6 +98,26 @@ function BookDetails() {
     return Number.isFinite(parsedRating) ? parsedRating : null;
   }, [book?.averageRating]);
 
+  useEffect(() => {
+    if (!book?.audioLink) return;
+    setAudioDuration(null);
+    const audio = new Audio();
+    audio.preload = "metadata";
+    const onLoaded = () => {
+      const secs = audio.duration;
+      if (!isFinite(secs)) return;
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      setAudioDuration(`${m}:${String(s).padStart(2, "0")}`);
+    };
+    audio.addEventListener("loadedmetadata", onLoaded);
+    audio.src = book.audioLink;
+    return () => {
+      audio.removeEventListener("loadedmetadata", onLoaded);
+      audio.src = "";
+    };
+  }, [book?.audioLink]);
+
   return (
     <div className="for-you-page">
       <div className="app-layout">
@@ -141,26 +162,21 @@ function BookDetails() {
                     {book.subTitle && <p className="book-details__subtitle">{book.subTitle}</p>}
                     <hr className="book-details__divider" />
 
-                    <div className="book-details__meta">
+                    {book.subscriptionRequired && (
+                      <span className="book-details__pill">Premium</span>
+                    )}
+
+                    <div className="book-details__type-row">
                       {rating !== null && (
                         <span className="book-details__meta-item">
                           <BsStarFill />
                           {rating.toFixed(1)}
-                          {book.totalRating && <span className="book-details__rating-count">({book.totalRating} ratings)</span>}
+                          {book.totalRating && <span className="book-details__rating-count">({book.totalRating})</span>}
                         </span>
                       )}
-                      {book.duration && (
-                        <span className="book-details__meta-item">
-                          <BsClock />
-                          {book.duration}
-                        </span>
+                      {audioDuration && (
+                        <span className="book-details__type-item"><BsClock /> {audioDuration}</span>
                       )}
-                      {book.subscriptionRequired && (
-                        <span className="book-details__pill">Premium</span>
-                      )}
-                    </div>
-
-                    <div className="book-details__type-row">
                       <span className="book-details__type-item"><BsMicFill /> Audio &amp; Text</span>
                       {keyIdeasCount > 0 && (
                         <span className="book-details__type-item"><BsLightbulb /> {keyIdeasCount} Key Ideas</span>
@@ -183,10 +199,11 @@ function BookDetails() {
                         try {
                           const lib = JSON.parse(localStorage.getItem("finishedLibrary") || "[]");
                           if (!lib.some((b) => b.id === book.id)) {
-                            lib.push({ id: book.id, title: book.title, author: book.author, imageLink: book.imageLink, subTitle: book.subTitle, averageRating: book.averageRating, subscriptionRequired: book.subscriptionRequired });
+                            lib.push({ id: book.id, title: book.title, author: book.author, imageLink: book.imageLink, subTitle: book.subTitle, averageRating: book.averageRating, subscriptionRequired: book.subscriptionRequired, audioLink: book.audioLink });
                             localStorage.setItem("finishedLibrary", JSON.stringify(lib));
                           }
                         } catch {}
+                        navigate(`/read/${id}`);
                       })}>
                         <BsBook />
                         Read
@@ -202,7 +219,7 @@ function BookDetails() {
                           try {
                             const lib = JSON.parse(localStorage.getItem("myLibrary") || "[]");
                             const updated = next
-                              ? [...lib.filter((b) => b.id !== book.id), { id: book.id, title: book.title, author: book.author, imageLink: book.imageLink, subTitle: book.subTitle, averageRating: book.averageRating, subscriptionRequired: book.subscriptionRequired }]
+                              ? [...lib.filter((b) => b.id !== book.id), { id: book.id, title: book.title, author: book.author, imageLink: book.imageLink, subTitle: book.subTitle, averageRating: book.averageRating, subscriptionRequired: book.subscriptionRequired, audioLink: book.audioLink }]
                               : lib.filter((b) => b.id !== book.id);
                             localStorage.setItem("myLibrary", JSON.stringify(updated));
                           } catch {}

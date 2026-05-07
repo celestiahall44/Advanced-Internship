@@ -4,6 +4,24 @@ import { FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
+function getAudioDuration(audioLink) {
+  return new Promise((resolve) => {
+    if (!audioLink) { resolve(null); return; }
+    const audio = new Audio();
+    audio.preload = "metadata";
+    audio.onloadedmetadata = () => {
+      const secs = audio.duration;
+      audio.src = "";
+      if (!isFinite(secs)) { resolve(null); return; }
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      resolve(`${m}:${String(s).padStart(2, "0")}`);
+    };
+    audio.onerror = () => resolve(null);
+    audio.src = audioLink;
+  });
+}
+
 function ForYou() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -13,6 +31,7 @@ function ForYou() {
   const [recommendedLoading, setRecommendedLoading] = useState(true);
   const [suggestedBooks, setSuggestedBooks] = useState([]);
   const [suggestedLoading, setSuggestedLoading] = useState(true);
+  const [durations, setDurations] = useState({});
 
   useEffect(() => {
     fetch("https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected")
@@ -33,6 +52,24 @@ function ForYou() {
       .catch(() => {})
       .finally(() => setSuggestedLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!selectedBooks.length) return;
+    Promise.all(selectedBooks.map((b) => getAudioDuration(b.audioLink).then((d) => [b.id, d])))
+      .then((entries) => setDurations((prev) => ({ ...prev, ...Object.fromEntries(entries) })));
+  }, [selectedBooks]);
+
+  useEffect(() => {
+    if (!recommendedBooks.length) return;
+    Promise.all(recommendedBooks.map((b) => getAudioDuration(b.audioLink).then((d) => [b.id, d])))
+      .then((entries) => setDurations((prev) => ({ ...prev, ...Object.fromEntries(entries) })));
+  }, [recommendedBooks]);
+
+  useEffect(() => {
+    if (!suggestedBooks.length) return;
+    Promise.all(suggestedBooks.map((b) => getAudioDuration(b.audioLink).then((d) => [b.id, d])))
+      .then((entries) => setDurations((prev) => ({ ...prev, ...Object.fromEntries(entries) })));
+  }, [suggestedBooks]);
 
   const handleSearch = () => {
     const trimmed = query.trim();
@@ -102,10 +139,10 @@ function ForYou() {
                         <h3 className="book-card__title">{book.title}</h3>
                         <p className="book-card__author">{book.author}</p>
                         <div className="book-card__meta">
-                          {book.duration && (
+                          {durations[book.id] && (
                             <span className="book-card__meta-item">
                               <BsClock />
-                              {book.duration}
+                              {durations[book.id]}
                             </span>
                           )}
                         </div>
@@ -154,10 +191,10 @@ function ForYou() {
                                 {book.averageRating.toFixed(1)}
                               </span>
                             )}
-                            {book.duration && (
+                            {durations[book.id] && (
                               <span className="book-card__meta-item">
                                 <BsClock />
-                                {book.duration}
+                                {durations[book.id]}
                               </span>
                             )}
                           </div>
@@ -202,10 +239,10 @@ function ForYou() {
                                 {book.averageRating.toFixed(1)}
                               </span>
                             )}
-                            {book.duration && (
+                            {durations[book.id] && (
                               <span className="book-card__meta-item">
                                 <BsClock />
-                                {book.duration}
+                                {durations[book.id]}
                               </span>
                             )}
                           </div>

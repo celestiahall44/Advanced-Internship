@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { BsCheckCircleFill, BsXCircle, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import pricingTop from "../assets/pricing-top.png";
 
@@ -41,6 +41,19 @@ function FaqItem({ question, answer }) {
 
 function ChoosePlan() {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const fromBookId = state?.fromBookId;
+  const [isOverWhite, setIsOverWhite] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // White background starts at ~320px based on the gradient
+      setIsOverWhite(window.scrollY > 280);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="choose-plan-page">
@@ -94,7 +107,7 @@ function ChoosePlan() {
               <h2 className="choose-plan__card-name">Premium Plus</h2>
               <p className="choose-plan__card-price"><span className="choose-plan__price-amount">$99.99</span> / year</p>
               <p className="choose-plan__card-save">Save over 40% vs monthly</p>
-              <button className="choose-plan__btn choose-plan__btn--primary" type="button" onClick={() => navigate("/login")}>
+              <button className="choose-plan__btn choose-plan__btn--primary" type="button" onClick={() => navigate("/payments", { state: { plan: { name: "Premium Plus", price: "$99.99", period: "year", trial: true } } })}>
                 Start your free 7-day trial
               </button>
               <p className="choose-plan__fine-print">Cancel anytime. $99.99/year after trial.</p>
@@ -103,10 +116,10 @@ function ChoosePlan() {
             <div className="choose-plan__card choose-plan__card--secondary">
               <h2 className="choose-plan__card-name">Premium</h2>
               <p className="choose-plan__card-price"><span className="choose-plan__price-amount">$9.99</span> / month</p>
-              <button className="choose-plan__btn choose-plan__btn--secondary" type="button" onClick={() => navigate("/login")}>
-                Start your free 7-day trial
+              <button className="choose-plan__btn choose-plan__btn--secondary" type="button" onClick={() => navigate("/payments", { state: { plan: { name: "Premium", price: "$9.99", period: "month", trial: false } } })}>
+                Get started
               </button>
-              <p className="choose-plan__fine-print">Cancel anytime. $9.99/month after trial.</p>
+              <p className="choose-plan__fine-print">Cancel anytime. $9.99/month.</p>
             </div>
           </div>
 
@@ -120,8 +133,8 @@ function ChoosePlan() {
             ))}
           </div>
 
-          <button className="choose-plan__back" type="button" onClick={() => navigate(-1)}>
-            ← Go back
+          <button className={`choose-plan__back${isOverWhite ? " choose-plan__back--over-white" : ""}`} type="button" onClick={() => navigate("/for-you")}>
+            ← Back to books
           </button>
         </div>
       </main>

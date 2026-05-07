@@ -9,6 +9,8 @@ import BookDetails from "./BookDetails";
 import ChoosePlan from "./ChoosePlan";
 import Library from "./Library";
 import Player from "./Player";
+import Read from "./Read";
+import Payments from "./Payments";
 import ProtectedRoute from "./ProtectedRoute";
 import "../style.css";
 
@@ -25,6 +27,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/choose-plan" element={<ProtectedRoute><ChoosePlan /></ProtectedRoute>} />
         <Route path="/library" element={<ProtectedRoute><Library /></ProtectedRoute>} />
         <Route path="/player/:id" element={<ProtectedRoute><Player /></ProtectedRoute>} />
+        <Route path="/read/:id" element={<ProtectedRoute><Read /></ProtectedRoute>} />
+        <Route path="/payments" element={<ProtectedRoute><Payments /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
     </FontSizeProvider>

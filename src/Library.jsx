@@ -1,9 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BsSearch, BsStarFill, BsBookmarkFill } from "react-icons/bs";
+import { BsSearch, BsStarFill, BsBookmarkFill, BsClock } from "react-icons/bs";
 import Sidebar from "./Sidebar";
 
-function BookGrid({ books, onNavigate, onRemove }) {
+function getAudioDuration(audioLink) {
+  return new Promise((resolve) => {
+    if (!audioLink) { resolve(null); return; }
+    const audio = new Audio();
+    audio.preload = "metadata";
+    audio.onloadedmetadata = () => {
+      const secs = audio.duration;
+      audio.src = "";
+      if (!isFinite(secs)) { resolve(null); return; }
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      resolve(`${m}:${String(s).padStart(2, "0")}`);
+    };
+    audio.onerror = () => resolve(null);
+    audio.src = audioLink;
+  });
+}
+
+function BookGrid({ books, onNavigate, onRemove, durations }) {
   return (
     <div className="library__grid">
       {books.map((book) => (
@@ -30,8 +48,16 @@ function BookGrid({ books, onNavigate, onRemove }) {
             )}
             {book.averageRating && (
               <div className="book-card-small__meta">
-                <BsStarFill style={{ color: "#f3cf4e" }} />
-                <span>{Number(book.averageRating).toFixed(1)}</span>
+                <span className="book-card__meta-item">
+                  <BsStarFill style={{ color: "#f3cf4e" }} />
+                  <span>{Number(book.averageRating).toFixed(1)}</span>
+                </span>
+                {durations[book.id] && (
+                  <span className="book-card__meta-item">
+                    <BsClock />
+                    {durations[book.id]}
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -60,6 +86,15 @@ function Library() {
   const [finished, setFinished] = useState(() => {
     try { return JSON.parse(localStorage.getItem("finishedLibrary") || "[]"); } catch { return []; }
   });
+
+  const [durations, setDurations] = useState({});
+
+  useEffect(() => {
+    const all = [...books, ...finished];
+    if (!all.length) return;
+    Promise.all(all.map((b) => getAudioDuration(b.audioLink).then((d) => [b.id, d])))
+      .then((entries) => setDurations(Object.fromEntries(entries.filter(([, d]) => d))));
+  }, [books, finished]);
 
   const handleSearch = () => {
     const trimmed = query.trim();
@@ -115,7 +150,7 @@ function Library() {
                   <p>Save books from their detail page to see them here.</p>
                 </div>
               ) : (
-                <BookGrid books={books} onNavigate={(id) => navigate(`/book/${id}`)} onRemove={handleRemoveSaved} />
+                <BookGrid books={books} onNavigate={(id) => navigate(`/book/${id}`)} onRemove={handleRemoveSaved} durations={durations} />
               )}
             </section>
 
@@ -125,7 +160,7 @@ function Library() {
               {finished.length === 0 ? (
                 <div className="library__empty" />
               ) : (
-                <BookGrid books={finished} onNavigate={(id) => navigate(`/book/${id}`)} onRemove={handleRemoveFinished} />
+                <BookGrid books={finished} onNavigate={(id) => navigate(`/book/${id}`)} onRemove={handleRemoveFinished} durations={durations} />
               )}
             </section>
           </main>
