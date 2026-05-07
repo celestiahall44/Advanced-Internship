@@ -22,7 +22,7 @@ function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { fontSize, setFontSize } = useFontSize();
-  const isPlayerPage = location.pathname.startsWith("/player/");
+  const isPlayerOrReadPage = location.pathname.startsWith("/player/") || location.pathname.startsWith("/read/");
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -61,7 +61,7 @@ function Sidebar() {
         )}
       </nav>
 
-      {isPlayerPage && (
+      {isPlayerOrReadPage && (
       <div className="sidebar__font-size">
         <div className="sidebar__font-size-options">
           {FONT_SIZE_OPTIONS.map((opt) => (
