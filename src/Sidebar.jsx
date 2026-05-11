@@ -14,7 +14,7 @@ const links = [
 ];
 
 const bottomLinks = [
-  { label: "Settings", icon: <IoSettingsOutline /> },
+  { to: "/settings", label: "Settings", icon: <IoSettingsOutline /> },
   { label: "Help & Support", icon: <HiOutlineQuestionMarkCircle />, disabled: true },
 ];
 
@@ -81,7 +81,7 @@ function Sidebar() {
       )}
 
       <div className="sidebar__bottom">
-        {bottomLinks.map(({ label, icon, disabled }) =>
+        {bottomLinks.map(({ to, label, icon, disabled }) =>
           disabled ? (
             <span
               key={label}
@@ -92,6 +92,19 @@ function Sidebar() {
               <span className="sidebar__icon">{icon}</span>
               <span className="sidebar__label">{label}</span>
             </span>
+          ) : to ? (
+            <NavLink
+              key={label}
+              to={to}
+              className={({ isActive }) =>
+                isActive
+                  ? "sidebar__link sidebar__action sidebar__link--active"
+                  : "sidebar__link sidebar__action"
+              }
+            >
+              <span className="sidebar__icon">{icon}</span>
+              <span className="sidebar__label">{label}</span>
+            </NavLink>
           ) : (
             <button key={label} type="button" className="sidebar__link sidebar__action">
               <span className="sidebar__icon">{icon}</span>

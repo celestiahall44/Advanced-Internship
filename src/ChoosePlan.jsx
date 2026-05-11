@@ -45,6 +45,11 @@ function ChoosePlan() {
   const fromBookId = state?.fromBookId;
   const [isOverWhite, setIsOverWhite] = useState(false);
 
+  const handleSelectPlan = (plan) => {
+    localStorage.setItem("subscriptionPlan", plan.name);
+    navigate("/payments", { state: { plan } });
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       // White background starts at ~320px based on the gradient
@@ -107,7 +112,7 @@ function ChoosePlan() {
               <h2 className="choose-plan__card-name">Premium Plus</h2>
               <p className="choose-plan__card-price"><span className="choose-plan__price-amount">$99.99</span> / year</p>
               <p className="choose-plan__card-save">Save over 40% vs monthly</p>
-              <button className="choose-plan__btn choose-plan__btn--primary" type="button" onClick={() => navigate("/payments", { state: { plan: { name: "Premium Plus", price: "$99.99", period: "year", trial: true } } })}>
+              <button className="choose-plan__btn choose-plan__btn--primary" type="button" onClick={() => handleSelectPlan({ name: "Premium Plus", price: "$99.99", period: "year", trial: true })}>
                 Start your free 7-day trial
               </button>
               <p className="choose-plan__fine-print">Cancel anytime. $99.99/year after trial.</p>
@@ -116,7 +121,7 @@ function ChoosePlan() {
             <div className="choose-plan__card choose-plan__card--secondary">
               <h2 className="choose-plan__card-name">Premium</h2>
               <p className="choose-plan__card-price"><span className="choose-plan__price-amount">$9.99</span> / month</p>
-              <button className="choose-plan__btn choose-plan__btn--secondary" type="button" onClick={() => navigate("/payments", { state: { plan: { name: "Premium", price: "$9.99", period: "month", trial: false } } })}>
+              <button className="choose-plan__btn choose-plan__btn--secondary" type="button" onClick={() => handleSelectPlan({ name: "Premium", price: "$9.99", period: "month", trial: false })}>
                 Get started
               </button>
               <p className="choose-plan__fine-print">Cancel anytime. $9.99/month.</p>

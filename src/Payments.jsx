@@ -60,7 +60,10 @@ function Payments() {
       setErrors(errs);
       return;
     }
-    setSubmissionError(true);
+    localStorage.setItem("subscriptionPlan", plan.name);
+    setSubmissionError(false);
+    setSubmitted(true);
+    setTimeout(() => navigate("/for-you"), 1400);
   };
 
   if (submitted) {
@@ -135,7 +138,6 @@ function Payments() {
                   value={form.name}
                   onChange={handleChange}
                   autoComplete="cc-name"
-                  disabled
                 />
                 {errors.name && <p className="payments__error">{errors.name}</p>}
               </div>
@@ -152,7 +154,6 @@ function Payments() {
                   onChange={handleChange}
                   inputMode="numeric"
                   autoComplete="cc-number"
-                  disabled
                 />
                 {errors.number && <p className="payments__error">{errors.number}</p>}
               </div>
@@ -170,7 +171,6 @@ function Payments() {
                     onChange={handleChange}
                     inputMode="numeric"
                     autoComplete="cc-exp"
-                    disabled
                   />
                   {errors.expiry && <p className="payments__error">{errors.expiry}</p>}
                 </div>
@@ -187,7 +187,6 @@ function Payments() {
                     onChange={handleChange}
                     inputMode="numeric"
                     autoComplete="cc-csc"
-                    disabled
                   />
                   {errors.cvc && <p className="payments__error">{errors.cvc}</p>}
                 </div>
