@@ -1,13 +1,23 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import loginImage from "../assets/login.png";
 import { auth } from "./firebase";
+import SearchHeader from "./SearchHeader";
 
 function Settings() {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const savedPlan = localStorage.getItem("subscriptionPlan");
   const subscriptionType = savedPlan ? savedPlan : "Basic";
   const userEmail = auth.currentUser?.email || "Guest user";
+
+  const handleSearch = () => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    navigate(`/search?q=${encodeURIComponent(trimmed)}`);
+  };
 
   if (!isLoggedIn) {
     return (
@@ -30,6 +40,7 @@ function Settings() {
       <div className="app-layout">
         <Sidebar />
         <div className="app-content">
+          <SearchHeader query={query} setQuery={setQuery} onSubmit={handleSearch} />
           <main className="app-main">
             <section className="settings-page">
               <h1 className="settings-page__title">Settings</h1>

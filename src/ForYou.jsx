@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { BsSearch, BsClock, BsStarFill } from "react-icons/bs";
+import { BsClock, BsStarFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import SearchHeader from "./SearchHeader";
 
 function getAudioDuration(audioLink) {
   return new Promise((resolve) => {
@@ -77,10 +78,6 @@ function ForYou() {
     navigate(`/search?q=${encodeURIComponent(trimmed)}`);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") handleSearch();
-  };
-
   const handleBookClick = (bookId) => {
     navigate(`/book/${bookId}`);
   };
@@ -90,28 +87,7 @@ function ForYou() {
       <div className="app-layout">
         <Sidebar />
         <div className="app-content">
-          <header className="for-you-nav">
-            <div className="for-you-nav__inner">
-              <div className="for-you-search">
-                <input
-                  className="search__input"
-                  type="search"
-                  placeholder="Search for books"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                />
-                <button
-                  className="search__btn"
-                  type="button"
-                  onClick={handleSearch}
-                  aria-label="Search"
-                >
-                  <BsSearch />
-                </button>
-              </div>
-            </div>
-          </header>
+          <SearchHeader query={query} setQuery={setQuery} onSubmit={handleSearch} />
           <main className="app-main">
             <section className="fy-section">
               <h2 className="fy-section__title">Selected For You</h2>

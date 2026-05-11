@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { BsClock, BsBook, BsSearch, BsStarFill, BsMicFill, BsFileText, BsLightbulb, BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import { BsClock, BsBook, BsStarFill, BsMicFill, BsFileText, BsLightbulb, BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { auth } from "./firebase";
 import Sidebar from "./Sidebar";
+import SearchHeader from "./SearchHeader";
 
 const BOOK_BY_ID_API = "https://us-central1-summaristt.cloudfunctions.net/getBook?id=";
 
@@ -39,10 +40,6 @@ function BookDetails() {
     const trimmed = query.trim();
     if (!trimmed) return;
     navigate(`/search?q=${encodeURIComponent(trimmed)}`);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") handleSearch();
   };
 
   useEffect(() => {
@@ -123,31 +120,35 @@ function BookDetails() {
       <div className="app-layout">
         <Sidebar />
         <div className="app-content">
-          <header className="for-you-nav">
-            <div className="for-you-nav__inner">
-              <div className="for-you-search">
-                <input
-                  className="search__input"
-                  type="search"
-                  placeholder="Search for books"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                />
-                <button
-                  className="search__btn"
-                  type="button"
-                  onClick={handleSearch}
-                  aria-label="Search"
-                >
-                  <BsSearch />
-                </button>
-              </div>
-            </div>
-          </header>
+          <SearchHeader query={query} setQuery={setQuery} onSubmit={handleSearch} />
           <main className="app-main book-page">
             {loading ? (
-              <div className="book-page__state">Loading book...</div>
+              <section className="book-details book-details--skeleton">
+                <div className="book-details__hero book-details__hero--skeleton">
+                  <div className="book-details__content book-details__content--skeleton">
+                    <div className="skeleton skeleton--title" />
+                    <div className="skeleton skeleton--text skeleton--short" />
+                    <div className="skeleton skeleton--text skeleton--medium" />
+                    <div className="skeleton skeleton--pill" />
+                    <div className="book-details__type-row book-details__type-row--skeleton">
+                      <div className="skeleton skeleton--chip" />
+                      <div className="skeleton skeleton--chip" />
+                      <div className="skeleton skeleton--chip" />
+                    </div>
+                    <div className="book-details__actions book-details__actions--skeleton">
+                      <div className="skeleton skeleton--button" />
+                      <div className="skeleton skeleton--button" />
+                    </div>
+                    <div className="skeleton skeleton--button skeleton--save" />
+                    <div className="book-details__body book-details__body--skeleton">
+                      <div className="skeleton skeleton--section-title" />
+                      <div className="skeleton skeleton--paragraph" />
+                      <div className="skeleton skeleton--paragraph" />
+                    </div>
+                  </div>
+                  <div className="skeleton skeleton--cover" />
+                </div>
+              </section>
             ) : !book ? (
               <div className="book-page__state">
                 <h2>Book not found</h2>

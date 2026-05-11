@@ -31,7 +31,7 @@ function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <Link to="/for-you" className="sidebar__logo" aria-label="Summarist home">
+      <Link to="/" className="sidebar__logo" aria-label="Summarist home">
         <img className="sidebar__logo-img" src={logoImage} alt="Summarist" />
       </Link>
       <nav className="sidebar__nav">

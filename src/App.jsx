@@ -24,9 +24,9 @@ function App() {
       <div className={isLoginModalOpen ? "home-content home-content--modal" : "home-content"}>
         <nav className="nav">
           <div className="nav__wrapper">
-            <figure className="nav__img--mask">
-              <img className="nav__img" src={logoImage} alt="logo" />
-            </figure>
+            <Link to="/" className="nav__img--mask" aria-label="Summarist home">
+              <img className="nav__img" src={logoImage} alt="Summarist" />
+            </Link>
             <ul className="nav__list--wrapper">
               <li className="nav__list nav__list--login">
                 <Link to="/login">Login</Link>

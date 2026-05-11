@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { BsSearch } from "react-icons/bs";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { MdReplay10, MdForward10 } from "react-icons/md";
 import Sidebar from "./Sidebar";
 import { useFontSize } from "./FontSizeContext";
+import SearchHeader from "./SearchHeader";
 
 const BOOK_BY_ID_API = "https://us-central1-summaristt.cloudfunctions.net/getBook?id=";
 
@@ -123,27 +123,37 @@ function Player() {
       <div className="app-layout">
         <Sidebar />
         <div className="app-content">
-          <header className="for-you-nav">
-            <div className="for-you-nav__inner">
-              <div className="for-you-search">
-                <input
-                  className="search__input"
-                  type="search"
-                  placeholder="Search for books"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                />
-                <button className="search__btn" type="button" onClick={handleSearch} aria-label="Search">
-                  <BsSearch />
-                </button>
-              </div>
-            </div>
-          </header>
+          <SearchHeader query={query} setQuery={setQuery} onSubmit={handleSearch} />
 
           <main className="app-main">
             {loading ? (
-              <div className="book-page__state">Loading...</div>
+              <div className="player__page-content player__page-content--skeleton">
+                <div className="skeleton skeleton--title skeleton--title-center" />
+                <div className="skeleton skeleton--divider" />
+                <div className="player__page-summary-wrap player__page-summary-wrap--skeleton">
+                  <div className="skeleton skeleton--paragraph" />
+                  <div className="skeleton skeleton--paragraph" />
+                  <div className="skeleton skeleton--paragraph skeleton--paragraph-long" />
+                </div>
+                <div className="player__footer player__footer--skeleton">
+                  <div className="player__book-info player__book-info--skeleton">
+                    <div className="skeleton skeleton--cover skeleton--cover-small" />
+                    <div className="player__book-info-text--skeleton">
+                      <div className="skeleton skeleton--text skeleton--medium" />
+                      <div className="skeleton skeleton--text skeleton--short" />
+                    </div>
+                  </div>
+                  <div className="player__controls player__controls--skeleton">
+                    <div className="skeleton skeleton--paragraph skeleton--paragraph-tight" />
+                    <div className="skeleton skeleton--button skeleton--button-wide" />
+                    <div className="player__btn-row player__btn-row--skeleton">
+                      <div className="skeleton skeleton--icon-button" />
+                      <div className="skeleton skeleton--icon-button skeleton--icon-button-large" />
+                      <div className="skeleton skeleton--icon-button" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             ) : !book ? (
               <div className="book-page__state">Book not found.</div>
             ) : (
