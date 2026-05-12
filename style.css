@@ -17,3 +17,38 @@ a {
   color: inherit;
 }
 
+/* Shared shimmer skeleton loading styles */
+.skeleton,
+.book-card--skeleton,
+.search-dropdown__item--skeleton,
+.search-dropdown__cover--skeleton,
+.search-dropdown__line {
+  background: linear-gradient(90deg, #ecf3f6 25%, #f4f8fa 37%, #ecf3f6 63%);
+  background-size: 400% 100%;
+  animation: app-skeleton-shimmer 1.3s ease-in-out infinite;
+}
+
+.search-dropdown__item--skeleton {
+  background-color: #ffffff;
+}
+
+@keyframes app-skeleton-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton,
+  .book-card--skeleton,
+  .search-dropdown__item--skeleton,
+  .search-dropdown__cover--skeleton,
+  .search-dropdown__line {
+    animation: none;
+  }
+}
+
