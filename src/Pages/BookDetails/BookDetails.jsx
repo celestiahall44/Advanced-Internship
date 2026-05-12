@@ -25,7 +25,8 @@ function BookDetails() {
   });
 
   const handleProtectedAction = (action) => {
-    if (!auth.currentUser) {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
       navigate("/login");
       return;
     }
