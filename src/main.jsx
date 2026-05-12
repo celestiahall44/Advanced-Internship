@@ -1,17 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import App from "./App";
+import App from "./Pages/Home/App";
 import { FontSizeProvider } from "./FontSizeContext";
-import ForYou from "./ForYou";
-import Search from "./Search";
-import BookDetails from "./BookDetails";
-import ChoosePlan from "./ChoosePlan";
-import Library from "./Library";
-import Player from "./Player";
-import Read from "./Read";
-import Payments from "./Payments";
-import Settings from "./Settings";
+import ForYou from "./Pages/ForYou/ForYou";
+import Search from "./Pages/Search/Search";
+import BookDetails from "./Pages/BookDetails/BookDetails";
+import ChoosePlan from "./Pages/ChoosePlan/ChoosePlan";
+import Library from "./Pages/Library/Library";
+import Player from "./Pages/Player/Player";
+import Read from "./Pages/Read/Read";
+import Payments from "./Pages/Payments/Payments";
+import Settings from "./Pages/Settings/Settings";
 import ProtectedRoute from "./ProtectedRoute";
 import "../style.css";
 

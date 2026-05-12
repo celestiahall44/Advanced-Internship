@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { BsClock, BsBook, BsStarFill, BsMicFill, BsFileText, BsLightbulb, BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { FaPlay } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import { auth } from "./firebase";
-import Sidebar from "./Sidebar";
-import SearchHeader from "./SearchHeader";
-
-const BOOK_BY_ID_API = "https://us-central1-summaristt.cloudfunctions.net/getBook?id=";
+import { auth } from "../../firebase";
+import Sidebar from "../../Components/Sidebar/Sidebar";
+import SearchHeader from "../../Components/SearchHeader/SearchHeader";
+import { BOOK_BY_ID_API } from "../../utils/api";
+import "./BookDetails.css";
 
 function BookDetails() {
   const { id } = useParams();

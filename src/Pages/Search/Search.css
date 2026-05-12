@@ -1,0 +1,46 @@
+@import "../ForYou/ForYou.css";
+
+.search-results {
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	padding: 32px 24px;
+}
+
+.search-results__query {
+	color: #394547;
+	font-size: 16px;
+	margin-bottom: 14px;
+}
+
+.search-results__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+	gap: 16px;
+}
+
+@media (max-width: 768px) {
+	.search-results {
+		padding: 20px 12px;
+	}
+
+	.search-results__grid {
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		gap: 12px;
+	}
+}
+
+@media (max-width: 480px) {
+	.search-results {
+		padding: 16px 8px;
+	}
+
+	.search-results__query {
+		font-size: 14px;
+	}
+
+	.search-results__grid {
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+	}
+}

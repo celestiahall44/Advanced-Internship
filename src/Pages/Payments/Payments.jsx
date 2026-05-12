@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BsCheckCircleFill, BsCreditCard2Front } from "react-icons/bs";
+import "./Payments.css";
 
 function Payments() {
   const { state } = useLocation();

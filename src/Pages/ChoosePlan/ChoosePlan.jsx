@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { BsCheckCircleFill, BsXCircle, BsChevronDown, BsChevronUp } from "react-icons/bs";
-import pricingTop from "../assets/pricing-top.png";
+import pricingTop from "../../../assets/pricing-top.png";
+import "./ChoosePlan.css";
 
 const FAQS = [
   {

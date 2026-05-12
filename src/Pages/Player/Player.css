@@ -1,0 +1,320 @@
+@import "../ForYou/ForYou.css";
+
+.player__footer {
+	position: fixed;
+	bottom: 0;
+	left: 220px;
+	right: 0;
+	background: #323436;
+	border-top: 1px solid #50555a;
+	display: flex;
+	align-items: center;
+	gap: 32px;
+	padding: 12px 40px;
+	z-index: 100;
+	box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.18);
+}
+
+.player__book-info {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	min-width: 200px;
+	flex-shrink: 0;
+}
+
+.player__cover {
+	width: 52px;
+	height: 52px;
+	object-fit: contain;
+	border-radius: 6px;
+	background: #4a4f53;
+	flex-shrink: 0;
+}
+
+.player__title {
+	font-size: 16px;
+	font-weight: 700;
+	color: #f6f8fa;
+	margin: 0 0 2px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 160px;
+}
+
+.player__author {
+	font-size: 14px;
+	color: #cdd4da;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 160px;
+}
+
+.player__controls {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: center;
+}
+
+.player__progress-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	max-width: 480px;
+}
+
+.player__time {
+	font-size: 14px;
+	color: #d7dde2;
+	white-space: nowrap;
+	min-width: 34px;
+}
+
+.player__seek {
+	flex: 1;
+	height: 4px;
+	accent-color: #f0f4f8;
+	cursor: pointer;
+}
+
+.player__btn-row {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.player__play-btn {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: #f2f6fb;
+	color: #1f2d3a;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.2s;
+}
+
+.player__play-btn:hover {
+	background: #dfe7ef;
+}
+
+.player__play-btn:disabled,
+.player__skip-btn:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.player__no-audio {
+	font-size: 13px;
+	color: #aab4bc;
+	text-align: center;
+	margin: 0 0 6px;
+}
+
+.player__skip-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 26px;
+	color: #edf2f7;
+	display: flex;
+	align-items: center;
+	transition: color 0.2s;
+}
+
+.player__skip-btn:hover {
+	color: #ffffff;
+}
+
+.player__volume-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+}
+
+.player__volume-label {
+	font-size: 14px;
+	color: #d7dde2;
+	white-space: nowrap;
+}
+
+.player__volume {
+	width: 90px;
+	height: 4px;
+	accent-color: #f0f4f8;
+	cursor: pointer;
+}
+
+.player__page-content {
+	max-width: 680px;
+	width: 100%;
+	margin: 0 auto;
+	padding-bottom: 100px;
+}
+
+.player__page-title {
+	font-size: 28px;
+	font-weight: 700;
+	color: #032b41;
+	margin: 0 0 6px;
+}
+
+.player__page-author {
+	font-size: 16px;
+	color: #6b757b;
+	margin: 0 0 8px;
+}
+
+.player__page-subtitle {
+	font-size: 16px;
+	color: #394547;
+	font-style: italic;
+	margin: 0 0 28px;
+}
+
+.player__page-divider {
+	border: none;
+	border-top: 1px solid #e1e7ea;
+	margin: 0 0 20px;
+}
+
+.player__page-section {
+	margin-top: 32px;
+}
+
+.player__page-section-title {
+	font-size: 20px;
+	font-weight: 700;
+	color: #032b41;
+	margin: 0 0 12px;
+}
+
+.player__page-summary {
+	font-size: 15px;
+	line-height: 1.7;
+	color: #394547;
+	white-space: pre-line;
+	margin: 0;
+}
+
+.player__page-summary-wrap .player__page-summary {
+	margin: 0 0 16px;
+}
+
+.player__page-summary-wrap .player__page-summary:last-child {
+	margin-bottom: 0;
+}
+
+.player__page-ideas {
+	padding-left: 20px;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.player__page-ideas li {
+	font-size: 15px;
+	line-height: 1.6;
+	color: #394547;
+}
+
+@media (max-width: 768px) {
+	.player__footer {
+		left: 0;
+		right: 0;
+		padding: 10px 12px;
+		gap: 12px;
+		flex-wrap: wrap;
+		align-items: flex-start;
+	}
+
+	.player__book-info {
+		min-width: 0;
+		width: 100%;
+	}
+
+	.player__title,
+	.player__author {
+		max-width: 100%;
+	}
+
+	.player__controls {
+		width: 100%;
+		align-items: stretch;
+	}
+
+	.player__progress-row {
+		max-width: none;
+	}
+
+	.player__volume-row {
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	.player__volume {
+		width: 120px;
+	}
+}
+
+@media (max-width: 480px) {
+	.player__footer {
+		padding: 10px 10px 12px;
+		gap: 10px;
+	}
+
+	.player__book-info {
+		gap: 10px;
+	}
+
+	.player__cover {
+		width: 44px;
+		height: 44px;
+	}
+
+	.player__progress-row {
+		gap: 8px;
+	}
+
+	.player__time {
+		font-size: 12px;
+		min-width: 30px;
+	}
+
+	.player__btn-row {
+		gap: 14px;
+	}
+
+	.player__play-btn {
+		width: 40px;
+		height: 40px;
+	}
+
+	.player__skip-btn {
+		font-size: 22px;
+	}
+
+	.player__volume-row {
+		gap: 8px;
+	}
+
+	.player__volume-label {
+		font-size: 12px;
+	}
+
+	.player__volume {
+		width: 84px;
+	}
+}

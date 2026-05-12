@@ -3,8 +3,9 @@ import { BsSearch, BsBookmark, BsPencil } from "react-icons/bs";
 import { IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import { HiOutlineQuestionMarkCircle } from "react-icons/hi2";
 import { RiHome6Line } from "react-icons/ri";
-import logoImage from "../assets/logo.png";
-import { useFontSize, FONT_SIZE_OPTIONS } from "./FontSizeContext";
+import logoImage from "../../../assets/logo.png";
+import { useFontSize, FONT_SIZE_OPTIONS } from "../../FontSizeContext";
+import "./Sidebar.css";
 
 const links = [
   { to: "/for-you", label: "For You", icon: <RiHome6Line /> },
@@ -26,6 +27,7 @@ function Sidebar() {
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("authMode");
     navigate("/login");
   };
 

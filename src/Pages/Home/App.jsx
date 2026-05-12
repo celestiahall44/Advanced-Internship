@@ -3,9 +3,10 @@ import { BiCrown } from "react-icons/bi";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
 import { RiLeafLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
-import Login from "./Login";
-import landingImage from "../assets/landing.png";
-import logoImage from "../assets/logo.png";
+import Login from "../Login/Login";
+import landingImage from "../../../assets/landing.png";
+import logoImage from "../../../assets/logo.png";
+import "./App.css";
 
 import { useEffect } from "react";
 

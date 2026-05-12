@@ -1,4 +1,4 @@
-import googleLogo from "../assets/google.png";
+import googleLogo from "../../../assets/google.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -7,7 +7,8 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { auth, googleProvider } from "./firebase";
+import { auth, googleProvider } from "../../firebase";
+import "./Login.css";
 
 function getAuthErrorMessage(code) {
   switch (code) {
@@ -67,6 +68,7 @@ function Login() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("authMode", "auth");
       navigate("/for-you");
     } catch (error) {
       setErrorMessage(getAuthErrorMessage(error.code));
@@ -93,6 +95,7 @@ function Login() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("authMode", "auth");
       navigate("/for-you");
     } catch (error) {
       setErrorMessage(getAuthErrorMessage(error.code));
@@ -126,6 +129,7 @@ function Login() {
     try {
       await signInWithPopup(auth, googleProvider);
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("authMode", "auth");
       navigate("/for-you");
     } catch (error) {
       setErrorMessage(getAuthErrorMessage(error.code));
@@ -143,8 +147,11 @@ function Login() {
   return (
     <section className="login-modal" onClick={closeModal}>
       <div className="login-card" onClick={(event) => event.stopPropagation()}>
-        <button className="login-close" type="button" onClick={closeModal}>
-          x
+        <button className="login-close" type="button" onClick={closeModal} aria-label="Close">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
         </button>
         <h1 className="login-title">{titles[mode]}</h1>
 
@@ -161,13 +168,13 @@ function Login() {
 
         {mode === "forgotPassword" && (
           <>
-            <form className="login-form" onSubmit={handleForgotPassword}>
+            <form className="login-form" onSubmit={handleForgotPassword} autoComplete="off">
               <input
                 className="login-input"
                 name="email"
                 type="email"
                 placeholder="Email Address"
-                autoComplete="email"
+                autoComplete="off"
               />
               <button className="btn login-submit" type="submit" disabled={loading}>
                 {loading ? "Sending..." : "Send Reset Email"}
@@ -197,27 +204,27 @@ function Login() {
             <div className="login-divider">
               <span>or</span>
             </div>
-            <form className="login-form" onSubmit={handleRegister}>
+            <form className="login-form" onSubmit={handleRegister} autoComplete="off">
               <input
                 className="login-input"
                 name="email"
                 type="email"
                 placeholder="Email Address"
-                autoComplete="email"
+                autoComplete="off"
               />
               <input
                 className="login-input"
                 name="password"
                 type="password"
                 placeholder="Password"
-                autoComplete="new-password"
+                autoComplete="off"
               />
               <input
                 className="login-input"
                 name="confirm"
                 type="password"
                 placeholder="Confirm Password"
-                autoComplete="new-password"
+                autoComplete="off"
               />
               <button className="btn login-submit" type="submit" disabled={loading}>
                 {loading ? "Creating account..." : "Create Account"}
@@ -237,7 +244,10 @@ function Login() {
               <Link
                 className="login-option login-option--guest"
                 to="/for-you"
-                onClick={() => localStorage.setItem("isLoggedIn", "true")}
+                onClick={() => {
+                  localStorage.setItem("isLoggedIn", "true");
+                  localStorage.setItem("authMode", "guest");
+                }}
               >
                 Login as Guest
               </Link>
@@ -257,20 +267,20 @@ function Login() {
             <div className="login-divider">
               <span>or</span>
             </div>
-            <form className="login-form" onSubmit={handleLogin}>
+            <form className="login-form" onSubmit={handleLogin} autoComplete="off">
               <input
                 className="login-input"
                 name="email"
                 type="email"
                 placeholder="Email Address"
-                autoComplete="email"
+                autoComplete="off"
               />
               <input
                 className="login-input"
                 name="password"
                 type="password"
                 placeholder="Password"
-                autoComplete="current-password"
+                autoComplete="off"
               />
               <button className="btn login-submit" type="submit" disabled={loading}>
                 {loading ? "Logging in..." : "Login"}

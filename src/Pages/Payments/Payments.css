@@ -1,0 +1,379 @@
+.payments__page {
+	min-height: 90vh;
+	background: linear-gradient(180deg, #032b41 0%, #032b41 300px, #ffffff 300px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+}
+
+.payments__page-title {
+	font-size: 44px;
+	font-weight: 700;
+	color: #ffffff;
+	margin: 0 0 24px;
+	text-align: center;
+}
+
+.payments__container {
+	width: 100%;
+	max-width: 900px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.payments__back {
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 100;
+	background: none;
+	border: none;
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	padding: 10px 16px;
+	border-radius: 6px;
+	transition: transform 0.2s;
+}
+
+.payments__back:hover {
+	transform: scale(1.1);
+}
+
+.payments__back--over-white {
+	color: #032b41;
+}
+
+.payments__back--over-white:hover {
+	transform: scale(1.1);
+}
+
+.payments__layout {
+	display: grid;
+	grid-template-columns: 1fr 1.2fr;
+	gap: 32px;
+	align-items: start;
+	width: 100%;
+}
+
+@media (max-width: 900px) {
+	.payments__layout {
+		grid-template-columns: 1fr;
+	}
+}
+
+.payments__summary-title {
+	font-size: 28px;
+	font-weight: 700;
+	color: #ffffff;
+	margin: 0 0 24px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.payments__summary-card {
+	background: #ffffff;
+	border-radius: 8px;
+	padding: 24px;
+	margin-bottom: 20px;
+	box-shadow: 0 4px 12px rgba(3, 43, 65, 0.08);
+}
+
+.payments__summary-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 15px;
+	color: #032b41;
+	margin-bottom: 8px;
+}
+
+.payments__summary-plan {
+	font-weight: 600;
+}
+
+.payments__summary-price {
+	font-size: 24px;
+	font-weight: 700;
+	color: #032b41;
+}
+
+.payments__summary-period {
+	font-size: 14px;
+	font-weight: 400;
+	color: #6b757b;
+}
+
+.payments__summary-trial {
+	font-size: 13px;
+	color: #2bd97c;
+	margin: 12px 0 0;
+	display: flex;
+	align-items: center;
+	font-weight: 600;
+}
+
+.payments__summary-divider {
+	border: none;
+	border-top: 1px solid #e1e7ea;
+	margin: 16px 0;
+}
+
+.payments__summary-row--total {
+	font-weight: 700;
+	font-size: 16px;
+	margin-top: 8px;
+}
+
+.payments__summary-after {
+	font-size: 12px;
+	color: #6b757b;
+	margin: 8px 0 0;
+}
+
+.payments__perks {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.payments__perks li {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 14px;
+	color: #394547;
+	font-weight: 500;
+}
+
+.payments__perk-check {
+	color: #2bd97c;
+	flex-shrink: 0;
+	font-size: 18px;
+}
+
+.payments__form-title {
+	font-size: 22px;
+	font-weight: 700;
+	color: #032b41;
+	margin: 0 0 24px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.payments__form-wrap {
+	background: #ffffff;
+	border-radius: 8px;
+	padding: 32px;
+	box-shadow: 0 4px 12px rgba(3, 43, 65, 0.08);
+}
+
+.payments__form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.payments__field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	flex: 1;
+}
+
+.payments__field-row {
+	display: flex;
+	gap: 20px;
+}
+
+.payments__field-row .payments__field {
+	flex: 1;
+}
+
+.payments__label {
+	font-size: 13px;
+	font-weight: 600;
+	color: #394547;
+}
+
+.payments__input {
+	border: 1.5px solid #d6dce0;
+	border-radius: 6px;
+	padding: 12px 14px;
+	font-size: 15px;
+	color: #032b41;
+	background: #ffffff;
+	outline: none;
+	transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+	cursor: not-allowed;
+}
+
+.payments__input:hover {
+	background: #fef2f2;
+	border-color: #e25c5c;
+}
+
+.payments__input:focus {
+	border-color: #032b41;
+	box-shadow: 0 0 0 3px rgba(3, 43, 65, 0.06);
+}
+
+.payments__input--error {
+	border-color: #e25c5c;
+}
+
+.payments__error {
+	font-size: 12px;
+	color: #e25c5c;
+	margin: 0;
+}
+
+.payments__submission-error {
+	background: #fef2f2;
+	border: 1.5px solid #e25c5c;
+	border-radius: 6px;
+	padding: 14px 16px;
+	margin-top: 16px;
+}
+
+.payments__error-message {
+	font-size: 14px;
+	color: #e25c5c;
+	margin: 0;
+	font-weight: 500;
+}
+
+.payments__submit {
+	background: #2bd97c;
+	color: #032b41;
+	border: none;
+	border-radius: 6px;
+	padding: 14px 20px;
+	font-size: 16px;
+	font-weight: 700;
+	cursor: pointer;
+	width: 100%;
+	transition: background 0.2s, transform 0.15s;
+	margin-top: 12px;
+}
+
+.payments__submit:hover {
+	background: #20c46e;
+	transform: translateY(-1px);
+}
+
+.payments__submit:active {
+	transform: translateY(0);
+}
+
+.payments__secure-note {
+	font-size: 12px;
+	color: #6b757b;
+	text-align: center;
+	margin: 16px 0 0;
+}
+
+.payments__success-screen {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	background: linear-gradient(180deg, #032b41 0%, #032b41 40%, #ffffff 40%);
+	text-align: center;
+	padding: 40px;
+}
+
+.payments__success-icon {
+	font-size: 72px;
+	color: #2bd97c;
+	animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.8);
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+.payments__success-title {
+	font-size: 36px;
+	font-weight: 700;
+	color: #032b41;
+	margin: 0;
+}
+
+.payments__success-sub {
+	font-size: 16px;
+	color: #6b757b;
+	margin: 0;
+}
+
+@media (max-width: 768px) {
+	.payments__page {
+		padding: 16px 12px 32px;
+	}
+
+	.payments__page-title {
+		font-size: 30px;
+		margin-bottom: 18px;
+	}
+
+	.payments__summary-title {
+		font-size: 22px;
+		margin-bottom: 18px;
+	}
+
+	.payments__form-wrap {
+		padding: 20px 16px;
+	}
+
+	.payments__field-row {
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.payments__back {
+		top: 12px;
+		left: 12px;
+		font-size: 14px;
+		padding: 8px 12px;
+	}
+}
+
+@media (max-width: 480px) {
+	.payments__summary-card,
+	.payments__form-wrap {
+		padding: 18px 14px;
+	}
+
+	.payments__summary-row {
+		font-size: 14px;
+	}
+
+	.payments__summary-price {
+		font-size: 20px;
+	}
+
+	.payments__submit {
+		font-size: 15px;
+		padding: 12px 16px;
+	}
+}

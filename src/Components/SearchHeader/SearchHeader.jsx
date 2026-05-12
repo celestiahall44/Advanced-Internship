@@ -1,33 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { BsClock, BsSearch } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { getAudioDuration } from "../../utils/audio";
+import "./SearchHeader.css";
 
 const SEARCH_API = "https://us-central1-summaristt.cloudfunctions.net/getBooksByAuthorOrTitle?search=";
-
-function getAudioDuration(audioLink) {
-  return new Promise((resolve) => {
-    if (!audioLink) {
-      resolve(null);
-      return;
-    }
-
-    const audio = new Audio();
-    audio.preload = "metadata";
-    audio.onloadedmetadata = () => {
-      const secs = audio.duration;
-      audio.src = "";
-      if (!isFinite(secs)) {
-        resolve(null);
-        return;
-      }
-      const m = Math.floor(secs / 60);
-      const s = Math.floor(secs % 60);
-      resolve(`${m}:${String(s).padStart(2, "0")}`);
-    };
-    audio.onerror = () => resolve(null);
-    audio.src = audioLink;
-  });
-}
 
 function SearchHeader({ query, setQuery, onSubmit, autoFocus = false }) {
   const navigate = useNavigate();

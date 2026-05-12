@@ -2,11 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { MdReplay10, MdForward10 } from "react-icons/md";
-import Sidebar from "./Sidebar";
-import { useFontSize } from "./FontSizeContext";
-import SearchHeader from "./SearchHeader";
-
-const BOOK_BY_ID_API = "https://us-central1-summaristt.cloudfunctions.net/getBook?id=";
+import Sidebar from "../../Components/Sidebar/Sidebar";
+import { useFontSize } from "../../FontSizeContext";
+import SearchHeader from "../../Components/SearchHeader/SearchHeader";
+import { BOOK_BY_ID_API } from "../../utils/api";
+import "./Player.css";
 
 function formatTime(secs) {
   if (!secs || isNaN(secs)) return "0:00";

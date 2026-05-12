@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Sidebar from "./Sidebar";
-import loginImage from "../assets/login.png";
-import { auth } from "./firebase";
-import SearchHeader from "./SearchHeader";
+import Sidebar from "../../Components/Sidebar/Sidebar";
+import loginImage from "../../../assets/login.png";
+import { auth } from "../../firebase";
+import SearchHeader from "../../Components/SearchHeader/SearchHeader";
+import "./Settings.css";
 
 function Settings() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const authMode = localStorage.getItem("authMode");
   const savedPlan = localStorage.getItem("subscriptionPlan");
   const subscriptionType = savedPlan ? savedPlan : "Basic";
-  const userEmail = auth.currentUser?.email || "Guest user";
+  const userEmail = authMode === "guest" ? "Guest email" : auth.currentUser?.email || "Guest email";
 
   const handleSearch = () => {
     const trimmed = query.trim();
