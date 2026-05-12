@@ -215,7 +215,8 @@ function BookDetails() {
                       className={`book-details__save${saved ? " book-details__save--saved" : ""}`}
                       type="button"
                       onClick={() => {
-                        if (!auth.currentUser) { navigate("/login"); return; }
+                        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+                        if (!isLoggedIn) { navigate("/login"); return; }
                         setSaved((s) => {
                           const next = !s;
                           try {
